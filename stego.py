@@ -31,29 +31,27 @@ def stego():
 	#Open image
 	coverImage = Image.open("trollface2.bmp")
 	#convert the image into RGBA
-	rgba_img = coverImage.convert('RGBA')
+	rgb_img = coverImage.convert('RGB')
 	#grab the size of image and store it into width and height
 	width, height = coverImage.size
 
-	secret = secretFile)
-
+	secret = secretFile()		
 	#imgSize = width*height
 	#print imgSize
 	for x in range(width):
 		for y in range(height):
 			#grab the rgba value of each pixel
-			r, g, b, a = rgba_img.getpixel((x, y))
+			r, g, b = rgb_img.getpixel((x, y))
 			#convert each rgba value into binary
 			red = list(bin(r)[2:].zfill(8))
 			green = list(bin(g)[2:].zfill(8))
 			blue = list(bin(b)[2:].zfill(8))
-			alpha = list(bin(a)[2:].zfill(8))
+
 			#put each pixels rgba into an array
-			rgba_array = [red, green, blue, alpha]
+			rgb_array = [red, green, blue]
 			#grab each pixels rgba
-			for epix in rgba_array:
-				#print epix[7]
-				return
+			for epix in rgb_array:
+				print epix[7]
 
 if __name__ == "__main__":	
 	secretFile()
