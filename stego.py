@@ -16,11 +16,6 @@ def secretFile():
 	return lbits
 	#convert = "".join(format(x, 'b').zfill(8) for x in bytearray(readFile))
 
-def stringToBinary():
-	message = raw_input("Type the message to be hidden: ")
-	convert = "".join(format(x, 'b').zfill(8) for x in bytearray(message))
-	print convert
-
 def compare(hiddenFile, coverFile):
 	coverImageSize = os.path.getsize(coverFile)
 	print "Your cover image size is: %d" %coverImageSize
@@ -34,10 +29,9 @@ def stego():
 	rgb_img = coverImage.convert('RGB')
 	#grab the size of image and store it into width and height
 	width, height = coverImage.size
-
-	secret = secretFile()		
-	#imgSize = width*height
-	#print imgSize
+	#grab the file to be hidden from secretFile method
+	secret = secretFile()
+	dataCounter = 0
 	for x in range(width):
 		for y in range(height):
 			#grab the rgba value of each pixel
@@ -46,13 +40,22 @@ def stego():
 			red = list(bin(r)[2:].zfill(8))
 			green = list(bin(g)[2:].zfill(8))
 			blue = list(bin(b)[2:].zfill(8))
-
 			#put each pixels rgba into an array
 			rgb_array = [red, green, blue]
-			#grab each pixels rgba
+			# #grab each pixels rgb
 			for epix in rgb_array:
-				print epix[7]
-
+				if dataCounter + 1 <= len(secret):
+					#replace the last bit to the hidden data's bit
+					epix[7] = secret[dataCounter]
+					dataCounter += 1
+					red = "".join(epix)
+					green = "".join(epix)
+					blue = "".join(epix)
+					print dataCounter
+					print red
+					print green
+					print blue
+				
 if __name__ == "__main__":	
 	secretFile()
 	stego()
