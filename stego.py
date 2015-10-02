@@ -24,7 +24,7 @@ def compare(hiddenFile, coverFile):
 
 def stego():
 	#Open image
-	coverImage = Image.open("trollface2.bmp")
+	coverImage = Image.open("trollface.bmp")
 	#convert the image into RGBA
 	rgb_img = coverImage.convert('RGB')
 	#grab the size of image and store it into width and height
@@ -42,19 +42,31 @@ def stego():
 			blue = list(bin(b)[2:].zfill(8))
 			#put each pixels rgba into an array
 			rgb_array = [red, green, blue]
-			# #grab each pixels rgb
+			#grab each pixels rgb
 			for epix in rgb_array:
 				if dataCounter + 1 <= len(secret):
 					#replace the last bit to the hidden data's bit
 					epix[7] = secret[dataCounter]
 					dataCounter += 1
-					red = "".join(epix)
-					green = "".join(epix)
-					blue = "".join(epix)
-					print dataCounter
-					print red
-					print green
-					print blue
+			#combine back the whole bits
+				red = "".join(epix)
+				green = "".join(epix)
+				blue = "".join(epix)
+
+				r = int(red, 2)
+				g = int(green, 2)
+				b = int(blue, 2)
+
+				coverImage.putpixel((x, y), (r, g , b))
+				coverImage.save("test.bmp")
+
+def decode():
+	hiddenImage = Image.open("test.bmp")
+	width, height = hiddenImage.size
+	for x in range(width):
+		for y in range(height):
+			r, g, b = rgb_img.getpixel((x, y))
+			return
 				
 if __name__ == "__main__":	
 	secretFile()
