@@ -1,51 +1,61 @@
 from PIL import Image
 import PIL.ImageOps
 import os
+import sys
+
+def usage():
+    if len(sys.argv) !=  4:
+        print "To use: ", sys.argv[0], "CoverImage FileToHide OutputFileName"
+        sys.exit()
 
 def secretFile():
 	bits = ""
 	lbits = []
 	fileNameBin =""
-	fileName = "Secret.txt"
-	secretData="Secret.txt"
+	fileName = str(sys.argv[2])
+	secretData = str(sys.argv[2])
 	totalDataSize = ""
 
 	for x in bytearray(fileName):
 		fileNameBin += bin(x)[2:].zfill(8)
-	print fileNameBin
+	fileNameBin += "00000000"
+	#print fileNameBin
 	#open file as read and binary mode
 	file = open(secretData, "rb")
 	#convert whatever is in the file into bytes
 	readFile = bytearray(file.read())
+
 	#convert the bytes into bits
 	for bit in readFile:
 		#store all the bits into a string
 		bits += bin(bit)[2:].zfill(8)
-
-	totalDataSize = len(bits)
-	print totalDataSize
-	lbits += list(fileNameBin) + list(bits)
+	#change the datasize from an int to binary and put into a list so we can send it
+	listDataSize = list(str(len(bits)))
+	totalDataSize = "".join(format(x, 'b').zfill(8) for x in bytearray(listDataSize))
+	
+	totalDataSize += "00000000"
+	lbits += list(fileNameBin) + list(totalDataSize) + list(bits)
 	#print lbits
 	return lbits
 	#convert = "".join(format(x, 'b').zfill(8) for x in bytearray(readFile))
 
 def compare():
-	coverImage = Image.open("trollface.bmp")
+	coverImage = Image.open(str(sys.argv[1]))
 	width, height = coverImage.size
 	bitsCanStore = width*height*3
 
 	secret = []
 	secret = secretFile()
-	totalBits = len(secret) * 8
-
+	totalBits = len(secret)
+	print totalBits
 	if totalBits <= bitsCanStore:
 		stego()
 	else:
-		print ("File to hide is too large")
+		print ("The file you want to hide is too large. Please choose a smaller file size")
 
 
 def stego():
-	coverImage = Image.open("trollface.bmp")
+	coverImage = Image.open(str(sys.argv[1]))
 	#convert the image into RGBA
 	rgb_img = coverImage.convert('RGB')
 	#grab the size of image and store it into width and height
@@ -106,6 +116,7 @@ def stego():
 	rgb_img.save("test.bmp")
 				
 if __name__ == "__main__":	
+	usage()
 	secretFile()
 	#stego()
 	compare()
