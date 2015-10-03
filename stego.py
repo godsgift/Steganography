@@ -16,6 +16,7 @@ def secretFile():
 	secretData = str(sys.argv[2])
 	totalDataSize = ""
 
+
 	for x in bytearray(fileName):
 		fileNameBin += bin(x)[2:].zfill(8)
 	fileNameBin += "00000000"
@@ -47,7 +48,6 @@ def compare():
 	secret = []
 	secret = secretFile()
 	totalBits = len(secret)
-	print totalBits
 	if totalBits <= bitsCanStore:
 		stego()
 	else:
@@ -67,6 +67,7 @@ def stego():
 	totalBits = len(secret)
 	bit_index = 0
 	rgb_array = []
+	outPutFileName = str(sys.argv[3])
 
 	#iterate through all the pixels
 	for x in range(width):
@@ -90,7 +91,7 @@ def stego():
 				#Use the original green or blue when creating the image if when storing the last bit stops at red or green.
 				if (bit_index >= (totalBits - 1)):
 					rgb_img.putpixel((x, y), (redDecimal, greenDecimal, blueDecimal))
-					rgb_img.save("test.bmp")
+					rgb_img.save(outPutFileName)
 					return
 
 				#swap the last bit of each rgb
@@ -113,11 +114,9 @@ def stego():
 			rgb_img.putpixel((x,y), (redDecimal, greenDecimal, blueDecimal))
 	#save the image if it loops perfectly
 	#ie if it stores the last bit in blue
-	rgb_img.save("test.bmp")
+	rgb_img.save(outPutFileName)
 				
 if __name__ == "__main__":	
 	usage()
 	secretFile()
-	#stego()
 	compare()
-	#decode()
