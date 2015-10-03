@@ -3,10 +3,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import sys
 import array
 
-
-
-
-
 cover = Image.open("test.bmp")
 rgba_cover = cover.convert('RGB')
 pixels = rgba_cover.load()
@@ -19,8 +15,7 @@ def stego():
 	global secret_message_size
 	byte_array_index = 0;
 	
-
-	secret_message_size = 528
+	secret_message_size = 264
 	secret_message_index = 0
 
 	# iterate through each pixel of the cover
@@ -35,7 +30,7 @@ def stego():
 				g_str = str(bin(g)[2:].zfill(8))[7]
 				b_str = str(bin(b)[2:].zfill(8))[7]
 				bit_array +=  r_str + g_str + b_str
-				
+				print bit_array
 				secret_message_index += 3
 
 			else:
