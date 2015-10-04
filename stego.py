@@ -1,3 +1,25 @@
+#############################################################################
+#Created by: Elton Sia A00800541
+#
+#File: stegosaurus.py
+#
+#This program hides secret data inside a cover image. Data can be an image or 
+#a text file. The secret data gets hidden inside a cover image using LSB 
+#method. The user may specifiy which secret data and cover image they wish
+#to use as well as the name of the output file.
+#Note: the output file must be in bmp format
+#Before the encoding starts, the progam checks first if the secret data size 
+#can be stuffed into the cover image, if not, the encoding does not start
+#
+#Functions:
+#usage():
+#secretFile():
+#compare():
+#stegosaurus():
+#main
+#
+#############################################################################
+
 from PIL import Image
 import PIL.ImageOps
 import os
@@ -37,24 +59,20 @@ def secretFile():
 	lbits += list(fileNameBin) + list(totalDataSize) + list(bits)
 	return lbits
 
-
 def compare():
 	coverImage = Image.open(str(sys.argv[1]))
 	width, height = coverImage.size
 	bitsCanStore = width*height*3
 
-	print bitsCanStore
 	secret = []
 	secret = secretFile()
 	totalBits = len(secret)
-	print totalBits
 	if totalBits <= bitsCanStore:
-		stego()
+		stegosaurus()
 	else:
 		print ("The file you want to hide is too large. Please choose a smaller file size")
 
-
-def stego():
+def stegosaurus():
 	coverImage = Image.open(str(sys.argv[1]))
 	#convert the image into RGBA
 	rgb_img = coverImage.convert('RGB')
