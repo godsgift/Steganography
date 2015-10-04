@@ -35,12 +35,10 @@ def stego():
 			b_str = str(bin(b)[2:].zfill(8))[7]
 
 			rgb_bit_array = [r_str, g_str, b_str]
-			print rgb_bit_array
 			for i in range(len(rgb_bit_array)):
 				
 				
 				byte += rgb_bit_array[i]
-
 				if len(byte) == 8:
 					bytez.append(byte)
 					if byte == "00000000" and nullcount == 0:

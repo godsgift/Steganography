@@ -16,11 +16,10 @@ def secretFile():
 	secretData = str(sys.argv[2])
 	totalDataSize = ""
 
-
 	for x in bytearray(fileName):
 		fileNameBin += bin(x)[2:].zfill(8)
 	fileNameBin += "00000000"
-	#print fileNameBin
+
 	#open file as read and binary mode
 	file = open(secretData, "rb")
 	#convert whatever is in the file into bytes
@@ -37,7 +36,7 @@ def secretFile():
 	totalDataSize += "00000000"
 	lbits += list(fileNameBin) + list(totalDataSize) + list(bits)
 	return lbits
-	#convert = "".join(format(x, 'b').zfill(8) for x in bytearray(readFile))
+
 
 def compare():
 	coverImage = Image.open(str(sys.argv[1]))
@@ -88,7 +87,6 @@ def stego():
 			greenDecimal = g
 			blueDecimal = b
 
-			#print redDecimal
 			#we can only loop through 3 times because of RGB
 			for i in range(3):
 				#Use the original green or blue when creating the image if when storing the last bit stops at red or green.
@@ -103,7 +101,6 @@ def stego():
 				#print redDecimal
 				bit_index += 1
 
-				#print redDecimal
 				#join the new last bit to the rest of the bits for each colour (RGB)
 				if (i == 0):
 					tempRed = "".join(rgb_array[i])

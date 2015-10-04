@@ -21,8 +21,7 @@ def pixyGrabber():
 	secretImage = Image.open(modifiedImage)
 	rgb_img = secretImage.convert('RGB')
 	width, height = rgb_img.size
-	rgb_array_list = []
-
+	
 	#misc variables
 	nullCondition = "00000000"
 	group = ""
@@ -33,9 +32,8 @@ def pixyGrabber():
 	binStringSecretMsg = ""
 	secretMessageSizeAscii = ""
 	secretMsgInt = 0
-	cCounter = 0
 	dataHolder = ""
-
+	dataHolderBin =""
 	#iterate through all the pixels
 	for x in range(width):
 		for y in range(height):
@@ -49,7 +47,6 @@ def pixyGrabber():
 			
 	#group the string in chunks of 8 so that its in binary
 	group = [rgb_array[i:i +8] for i in range(0, len(rgb_array), 8)]
-
 	for i in group:
 		#stores all the data into temp for now
 		temp += i
@@ -72,18 +69,16 @@ def pixyGrabber():
 				binStringSecretMsg = ""
 			secretMsgInt = int(secretMessageSizeAscii)
 			nullCounter += 1
-			temp=""
+		
 		#grab the data depending on the data size that was given
 		elif(nullCounter == 3):
 			for k in range(secretMsgInt):
-				dataHolder += group[cCounter+k]
+				dataHolder += group[secretMessageIndex + k]
 			return
-			nullCounter += 1
-		cCounter += 1
+		secretMessageIndex += 1
 
 def newFile():
 	secretData = ""
-	byteAray = []
 	test = ""
 	fileName = ""
 	#grabs the file name and changes it back into a string
