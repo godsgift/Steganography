@@ -46,7 +46,7 @@ def pixyGrabber():
 			blueBinString = str(bin(b)[2:].zfill(8))[7]
 
 			rgb_array += redBinString + greenBinString + blueBinString
-	
+			
 	#group the string in chunks of 8 so that its in binary
 	group = [rgb_array[i:i +8] for i in range(0, len(rgb_array), 8)]
 
@@ -59,7 +59,7 @@ def pixyGrabber():
 			nullCounter += 1
 			#reset temp
 			temp = ""
-		#if we see the second null terminator, we gran the data size from the data before the null terminator
+		#if we see the second null terminator, we grab the data size from the data before the null terminator
 		elif (i == nullCondition and nullCounter == 2):
 			secretMessageSize = temp[0:len(temp) - 8]
 			secretMessageSizeList = list(secretMessageSize)
@@ -70,8 +70,9 @@ def pixyGrabber():
 					counter += 1
 				secretMessageSizeAscii += ''.join(chr(int(binStringSecretMsg[i:i+8], 2)) for i in xrange(0, len(binStringSecretMsg), 8))
 				binStringSecretMsg = ""
-			secretMsgInt =  int(secretMessageSizeAscii)
+			secretMsgInt = int(secretMessageSizeAscii)
 			nullCounter += 1
+			temp=""
 		#grab the data depending on the data size that was given
 		elif(nullCounter == 3):
 			for k in range(secretMsgInt):
@@ -79,7 +80,7 @@ def pixyGrabber():
 			return
 			nullCounter += 1
 		cCounter += 1
-			
+
 def newFile():
 	secretData = ""
 	byteAray = []

@@ -36,7 +36,6 @@ def secretFile():
 	
 	totalDataSize += "00000000"
 	lbits += list(fileNameBin) + list(totalDataSize) + list(bits)
-	#print lbits
 	return lbits
 	#convert = "".join(format(x, 'b').zfill(8) for x in bytearray(readFile))
 
@@ -45,9 +44,11 @@ def compare():
 	width, height = coverImage.size
 	bitsCanStore = width*height*3
 
+	print bitsCanStore
 	secret = []
 	secret = secretFile()
 	totalBits = len(secret)
+	print totalBits
 	if totalBits <= bitsCanStore:
 		stego()
 	else:
@@ -69,6 +70,7 @@ def stego():
 	rgb_array = []
 	outPutFileName = str(sys.argv[3])
 
+	testRed =[]
 	#iterate through all the pixels
 	for x in range(width):
 		for y in range(height):
@@ -78,14 +80,15 @@ def stego():
 			greenBin = list(bin(g)[2:].zfill(8))
 			blueBin = list(bin(b)[2:].zfill(8))
 			#put the list of rgb into a list 
-			rgb_array.append(redBin)
-			rgb_array.append(greenBin)
-			rgb_array.append(blueBin)
+
+			rgb_array = [redBin, greenBin, blueBin]
+			rgb_decimal = []
 
 			redDecimal = r
 			greenDecimal = g
 			blueDecimal = b
 
+			#print redDecimal
 			#we can only loop through 3 times because of RGB
 			for i in range(3):
 				#Use the original green or blue when creating the image if when storing the last bit stops at red or green.
@@ -97,8 +100,10 @@ def stego():
 				#swap the last bit of each rgb
 				rgb_array[(i)][7] = secret[bit_index]
 				rgb_array[(i)] = rgb_array[(i)]
+				#print redDecimal
 				bit_index += 1
 
+				#print redDecimal
 				#join the new last bit to the rest of the bits for each colour (RGB)
 				if (i == 0):
 					tempRed = "".join(rgb_array[i])
@@ -109,9 +114,8 @@ def stego():
 				else:
 					tempBlue = "".join(rgb_array[i])
 					blueDecimal = int(tempBlue, 2)
-
-			#create the new image with the modified RGB
-			rgb_img.putpixel((x,y), (redDecimal, greenDecimal, blueDecimal))
+				#create the new image with the modified RGB
+				rgb_img.putpixel((x,y), (redDecimal, greenDecimal, blueDecimal))
 	#save the image if it loops perfectly
 	#ie if it stores the last bit in blue
 	rgb_img.save(outPutFileName)
