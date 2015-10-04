@@ -14,7 +14,9 @@ To run stegosaurus.py, we will need to supply it with 3 arguments
 python stegosaurus.py [cover image] [data we want to hide] [output file we want]
 
 Note: the outputfile must be an image with a .bmp extension
+
 example:
+
 python stegosaurus.py red.bmp fb.bmp hidden.bmp
 ############################
 
@@ -23,5 +25,6 @@ To run destegosaurus.py, we will need to supply it with 1 argument
 python destegosaurus.py [modified image with the secret data]
 
 example:
+
 python destegosaurus.py hidden.bmp
 ############################
